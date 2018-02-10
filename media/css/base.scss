@@ -1,0 +1,18 @@
+@import "node_modules/bootstrap/scss/bootstrap";
+@import url('https://fonts.googleapis.com/css?family=Lato:400,700');
+
+$theme-colors: (
+  "primary": #0b4f6c
+);
+
+#ixnNav {
+  a {
+    fill: theme-color("primary");
+    color: theme-color("primary");
+    font-family: Lato, Helvetica, Arial, "sans-serif";
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+}
