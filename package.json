@@ -1,0 +1,20 @@
+{
+  "name": "ssig_site",
+  "version": "1.0.0",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/UCLComputerScience/103P_2018_team51.git"
+  },
+  "author": "Leo McArdle, Cameron Mcloughlin, Minjae Kang",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/UCLComputerScience/103P_2018_team51/issues"
+  },
+  "homepage": "https://github.com/UCLComputerScience/103P_2018_team51#readme",
+  "dependencies": {
+    "gulp": "^3.9.1"
+  }
+}
