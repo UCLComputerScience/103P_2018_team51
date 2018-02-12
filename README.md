@@ -1,5 +1,5 @@
 # IXN Website, Events, SSIGs
-*git repo for team 51's comp104p group project*
+*git repo for team 51's comp103p group project*
 
 # Development Setup
 
