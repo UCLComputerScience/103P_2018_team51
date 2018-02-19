@@ -9,6 +9,10 @@ RUN npm install gulp-cli -g
 ENV PYTHONUNBUFFERED 1
 RUN mkdir /code
 WORKDIR /code
-ADD . /code/
+ADD requirements.txt /code/
 RUN pip3 install -r requirements.txt
+ADD package.json /code/
+ADD package-lock.json /code/
 RUN npm install
+ADD . /code/
+RUN ls -Al node_modules
