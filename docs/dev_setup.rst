@@ -97,3 +97,46 @@ It also seems that the correct database configuration options aren't set. Resolv
   DATABASE_PASSWORD=vagrant
 
 Or modify your existing ``.env`` file to contain those options.
+
+Admin Interface
+---------------
+
+Create a superuser to access the admin interface at http://localhost:8000/admin.
+
+Do this by running ``python3 manage.py createsuperuser`` within your development environment.
+
+*UPI* stands for Unique Person Identifier, a unique id given to every member of UCL, set this to your own UPI (found on your UCL ID card) if you want to be able to log into the admin interface through UCL API OAuth.
+
+Authentication
+--------------
+
+The project makes use of `UCL API OAuth <https://uclapi.com/>`_ for authentication.
+
+Reverse Proxy
+^^^^^^^^^^^^^
+
+UCL API prohibits setting localhost as as callback URL, so you'll need to set up a reverse proxy to access your local development server through a remote url.
+
+One solution is localtunnel, which can be used by following the instructions here: https://localtunnel.github.io/www/.
+
+OAuth Credentials
+^^^^^^^^^^^^^^^^^
+
+Create a new app at: https://uclapi.com/dashboard/.
+
+Then fill in the OAuth Callback URL to be the remote url of your development server, followed by ``/auth/callback``. If using localtunnel, this will be something like:
+
+.. code-block:: none
+
+  https://abcdefghij.localtunnel.me/auth/callback
+
+Then create a ``.env`` file in the source directory and include the *Client ID* and *Client Secret* from the UCL API dashboard, for example:
+
+.. code-block:: none
+
+  UCLAPI_CLIENT_ID=0123456789.0123456789
+  UCLAPI_CLIENT_SECRET=0123456789abcdef
+
+Or modify your existing ``.env`` file to contain those options.
+
+Test you've setup your credentials correctly by attempting to log in by visiting ``/auth``.

@@ -4,3 +4,4 @@ static/
 .idea/
 .vagrant/
 *.log
+.env

@@ -1,0 +1,9 @@
+{% extends "admin/change_form.html" %}
+
+{% block form_top %}
+  {% if not is_popup %}
+    <p>First, enter a upi. Then, you'll be able to edit more user options, and optionally set a password.</p>
+  {% else %}
+    <p>Enter a upi.</p>
+  {% endif %}
+{% endblock %}

@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block title %}Authentication Failed{% endblock %}
+
+{% block content %}
+<div class="alert alert-danger" role="alert">
+  <h4>Authentication Failed</h4>
+  <p class="mb-0">Apologies, please try <a href="{% url 'auth' %}" class="alert-link">logging in again</a>.</p>
+</div>
+{% endblock %}
