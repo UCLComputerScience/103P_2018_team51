@@ -15,4 +15,3 @@ ADD package.json /code/
 ADD package-lock.json /code/
 RUN npm install
 ADD . /code/
-RUN ls -Al node_modules
