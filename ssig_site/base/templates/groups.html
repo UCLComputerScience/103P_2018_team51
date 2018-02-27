@@ -1,11 +1,9 @@
 {% extends "base.html" %}
 
-{% block title %} Groups {% endblock %}
-
+{% block title %}Groups{% endblock %}
 {% block content %}
-
 {% for group in groups %}
-<a href="/g/{{group.id}}"><h2>{{group.name}}</h2></a>
-<p>{{group.description}}</p>
+    <a href="{% url 'group-detail' group.id%}"><h2>{{group.name}}</h2></a>
+    <p>{{group.description}}</p>
 {% endfor %}
 {% endblock %}
