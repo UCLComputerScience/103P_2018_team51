@@ -5,7 +5,7 @@ from django.db import models
 
 class Group(models.Model):
 
-    name = models.TextField()
+    name = models.CharField(max_length=50)
     description = models.TextField()
 
     def __str__(self):
