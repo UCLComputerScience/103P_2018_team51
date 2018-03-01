@@ -1,6 +1,6 @@
 from django.contrib import admin
-from ssig_site.base.models import Group
-
+from . import models
 # Register your models here.
 
-admin.site.register(Group)
+admin.site.register(models.Group)
+admin.site.register(models.Event)
