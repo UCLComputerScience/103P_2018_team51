@@ -2,12 +2,6 @@
 *git repo for team 51's comp103p group project*
 
 [![Build Status](https://travis-ci.org/UCLComputerScience/103P_2018_team51.svg?branch=master)](https://travis-ci.org/UCLComputerScience/103P_2018_team51)
+[![Documentation Status](https://readthedocs.org/projects/ixn-website-events-ssigs/badge/?version=latest)](http://ixn-website-events-ssigs.readthedocs.io/en/latest/?badge=latest)
 
-# Development Setup
-
-1. Install Docker Compose: https://docs.docker.com/compose/install/
-2. Clone this repository with: `git clone git@github.com:UCLComputerScience/103P_2018_team51.git`
-3. Enter the created folder with: `cd 103P_2018_team51`
-4. Build and start the Docker container with: `docker-compose up`
-5. Load the site at: http://localhost:8000
-6. Profit :money_with_wings: :money_with_wings: :money_with_wings:
+Project documentation can be found on [Read the Docs](https://ixn-website-events-ssigs.readthedocs.io/en/latest/).
