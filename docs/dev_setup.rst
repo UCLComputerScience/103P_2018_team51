@@ -1,0 +1,99 @@
+Development Setup
+=================
+
+The recommended development environment is Docker, but a Vagrant environment is also provided.
+
+Cloning the repository
+----------------------
+
+Both environments require you to:
+
+#. Clone the repository: ``git clone https://github.com/UCLComputerScience/103P_2018_team51.git``
+#. Enter the cloned repository: ``cd 103P_2018_team51``
+
+Docker
+------
+
+Ensure you've installed Docker Compose by following the instructions here: https://docs.docker.com/compose/install/
+
+Then, build the container with: ``docker-compose build``.
+
+Next, you'll need to run the database migrations, to set up the database. To do this:
+
+#. Open a shell within the docker container: ``docker-compose run web sh``
+#. Within the container, run: ``python3 manage.py migrate``
+
+Now, close the container shell with ``exit`` (or open a new terminal window) and run the container with: ``docker-compose up``.
+
+You should now be able to access the site at: http://localhost:8000
+
+Stopping the container
+^^^^^^^^^^^^^^^^^^^^^^
+
+To stop the running container, go to the terminal it's running in and hit **Ctrl + C**. Docker will then gracefully bring the container down.
+
+If the container is hanging, hit **Ctrl + C** again to kill it.
+
+Updating the container
+^^^^^^^^^^^^^^^^^^^^^^
+
+When pulling in new changes to the ``requirements.txt`` file from git, the container will need to be rebuilt.
+
+To rebuild and bring the container up in one step run: ``docker-compose up --build``.
+
+Tips, tricks and oddities
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Running Docker as root
+""""""""""""""""""""""
+
+If running ``docker-compose`` as root, `as is recommended <https://docs.docker.com/engine/security/security/#docker-daemon-attack-surface>`_, then all files and directories created in the source directory within the container will be owned by root, and git will be unable to properly version control them. Run ``sudo chown -R $USER:$USER .`` outside the container to update their ownership to your user.
+
+Vagrant
+-------
+
+Download Vagrant and install it from here: https://www.vagrantup.com/downloads.html
+
+You'll also need to install VirtualBox from here: https://www.virtualbox.org/wiki/Downloads
+
+Bring the machine up with: ``vagrant up``.
+
+After the machine has finished booting, open a shell within it with: ``vagrant ssh``.
+
+Next, you'll want to navigate to the directory holding the project's source code with: ``cd /vagrant``.
+
+Here, run the database migrations to set up the database with ``python3 manage.py migrate``, and bring the server up with ``gulp``.
+
+You should now be able to access the site at: http://localhost:8000
+
+Stopping the machine
+^^^^^^^^^^^^^^^^^^^^
+
+To stop the running machine:
+
+#. Kill the server with: **Ctrl + C**
+#. Exit from the machine's shell with: ``exit``
+#. Stop the machine with: ``vagrant halt``
+
+Updating the machine
+^^^^^^^^^^^^^^^^^^^^
+
+When pulling in changes to the ``requirements.txt`` file from git, those new requirements will need to be installed in the machine.
+
+Do this by running ``pip3 install -r requirements.txt`` from the ``/vagrant`` path within the machine.
+
+Tips, tricks and oddities
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Using Windows as a host
+"""""""""""""""""""""""
+
+It seems that on Windows, the ``up.sh`` provisioning script isn't run on every ``vagrant up``. This will usually be apparent if running ``gulp`` produces an error about it not being installed. This can be resolved by running ``./up.sh`` from the ``/vagrant`` path within the machine, every time after you bring it up.
+
+It also seems that the correct database configuration options aren't set. Resolve this by creating a ``.env`` file in the source directory which includes::
+
+  DATABASE_HOST=localhost
+  DATABASE_USER=vagrant
+  DATABASE_PASSWORD=vagrant
+
+Or modify your existing ``.env`` file to contain those options.

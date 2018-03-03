@@ -9,3 +9,5 @@ Welcome to IXN Website, Events, SSIGs' documentation!
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
+
+   dev_setup
