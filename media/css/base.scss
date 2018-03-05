@@ -1,9 +1,9 @@
-@import "node_modules/bootstrap/scss/bootstrap";
-@import url('https://fonts.googleapis.com/css?family=Lato:400,700');
-
 $theme-colors: (
   "primary": #0b4f6c
 );
+
+@import "node_modules/bootstrap/scss/bootstrap";
+@import url('https://fonts.googleapis.com/css?family=Lato:400,700');
 
 #ixnNav {
   a {
@@ -14,5 +14,11 @@ $theme-colors: (
     font-weight: 700;
     letter-spacing: 2px;
     text-transform: uppercase;
+  }
+}
+
+#ssigNav {
+  h1 {
+    color: #fff;
   }
 }

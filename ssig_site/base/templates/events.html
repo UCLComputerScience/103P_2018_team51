@@ -2,8 +2,11 @@
 
 {% block title %}Events{% endblock %}
 
+{% block header %}
+  <h1>Events</h1>
+{% endblock %}
+
 {% block content %}
-<h1> Events </h1>
 <ul>
   {% for event in events %}
   <li><a href="{% url 'event' event.id %}">{{ event.title }}</a></li>
