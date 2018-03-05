@@ -10,6 +10,7 @@ Both environments require you to:
 
 #. Clone the repository: ``git clone https://github.com/UCLComputerScience/103P_2018_team51.git``
 #. Enter the cloned repository: ``cd 103P_2018_team51``
+#. Copy the *env-dist* file to *.env*: ``cp env-dist .env``
 
 Docker
 ------
@@ -90,13 +91,11 @@ Using Windows as a host
 
 It seems that on Windows, the ``up.sh`` provisioning script isn't run on every ``vagrant up``. This will usually be apparent if running ``gulp`` produces an error about it not being installed. This can be resolved by running ``./up.sh`` from the ``/vagrant`` path within the machine, every time after you bring it up.
 
-It also seems that the correct database configuration options aren't set. Resolve this by creating a ``.env`` file in the source directory which includes::
+It also seems that the correct database configuration options aren't set. Resolve this by updating your ``.env`` file to include::
 
   DATABASE_HOST=localhost
   DATABASE_USER=vagrant
   DATABASE_PASSWORD=vagrant
-
-Or modify your existing ``.env`` file to contain those options.
 
 Admin Interface
 ---------------
@@ -130,13 +129,11 @@ Then fill in the OAuth Callback URL to be the remote url of your development ser
 
   https://abcdefghij.localtunnel.me/auth/callback
 
-Then create a ``.env`` file in the source directory and include the *Client ID* and *Client Secret* from the UCL API dashboard, for example:
+Then update your ``.env`` file to include the *Client ID* and *Client Secret* from the UCL API dashboard, for example:
 
 .. code-block:: none
 
   UCLAPI_CLIENT_ID=0123456789.0123456789
   UCLAPI_CLIENT_SECRET=0123456789abcdef
-
-Or modify your existing ``.env`` file to contain those options.
 
 Test you've setup your credentials correctly by attempting to log in by visiting ``/auth``.

@@ -1,6 +1,7 @@
 __pycache__
 node_modules/
 static/
+!static/web.config
 .idea/
 .vagrant/
 *.log

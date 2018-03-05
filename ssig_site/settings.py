@@ -22,13 +22,15 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 't#$a&19a&t#qwffspdb_p#1it*z@d_7&15ul1fk&im#!a@9fk^'
+SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config('DEBUG', default=False, cast=bool)
 
-ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='*', cast=lambda v: [s.strip() for s in v.split(',')])
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=lambda v: [s.strip() for s in v.split(',')])
 
+CSRF_COOKIE_SECURE = config('CSRF_COOKIE_SECURE', default=True, cast=bool)
+SESSION_COOKIE_SECURE = config('SESSION_COOKIE_SECURE', default=True, cast=bool)
 
 # Application definition
 
@@ -83,7 +85,7 @@ WSGI_APPLICATION = 'ssig_site.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres',
+        'NAME': config('DATABASE_NAME', default='postgres'),
         'USER': config('DATABASE_USER', default='postgres'),
         'PASSWORD': config('DATABASE_PASSWORD', default=''),
         'HOST': config('DATABASE_HOST', default='db'),
@@ -132,13 +134,14 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static')
 ]
 STATIC_URL = '/static/'
+STATIC_ROOT = config('STATIC_ROOT', default='')
 
 
 # UCL API
 
 UCLAPI_URL = config('UCLAPI_URL', default='https://uclapi.com/')
-UCLAPI_CLIENT_ID = config('UCLAPI_CLIENT_ID')
-UCLAPI_CLIENT_SECRET = config('UCLAPI_CLIENT_SECRET')
+UCLAPI_CLIENT_ID = config('UCLAPI_CLIENT_ID', default='')
+UCLAPI_CLIENT_SECRET = config('UCLAPI_CLIENT_SECRET', default='')
 
 AUTHENTICATION_BACKENDS = [
     'ssig_site.auth.backends.UCL',
