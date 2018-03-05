@@ -18,5 +18,7 @@ class Event(models.Model):
     start_datetime = models.DateTimeField()
     end_datetime = models.DateTimeField()
 
+    group = models.ForeignKey(Group, on_delete=models.CASCADE, blank=True, null=True)
+
     def __str__(self):
         return self.title
