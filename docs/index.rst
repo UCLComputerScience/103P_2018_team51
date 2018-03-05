@@ -10,4 +10,5 @@ Welcome to IXN Website, Events, SSIGs' documentation!
    :maxdepth: 2
    :caption: Contents:
 
-   dev_setup
+   dev/setup
+   dev/method
