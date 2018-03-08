@@ -5,7 +5,10 @@
 {% block header %}
   <h1>{{group.name}}</h1>
 {% endblock %}
-
 {% block content %}
 <p>{{group.description}}</p>
+<form action="/g/{{group.id}}/subscribe" method="post">
+    {% csrf_token %}
+    <input type="submit" value="Subscribe to Group">
+</form>
 {% endblock %}

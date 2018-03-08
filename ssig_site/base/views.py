@@ -22,3 +22,5 @@ def events(request):
 def event(request, id):
     event = models.Event.objects.get(id=id)
     return render(request, 'event.html', {'event': event})
+
+
