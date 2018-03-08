@@ -3,12 +3,22 @@
 {% block title %}{{group.name}}{% endblock %}
 
 {% block header %}
-  <h1>{{group.name}}</h1>
+<h1>{{group.name}}</h1>
+{% if user.is_authenticated %}
+    {% if not group_member %}
+        <form class="form-inline" action="/g/{{group.id}}/subscribe" method="post">
+            {% csrf_token %}
+            <input type="submit" class="btn btn-light mb-2" value="Subscribe to Group">
+        </form>
+    {% else %}
+        <form class="form-inline" action="/g/{{group.id}}/unsubscribe" method="post">
+            {% csrf_token %}
+            <input type="submit" class="btn btn-light mb-2" value="Unsubscribe">
+        </form>
+    {% endif %}
+{% endif %}
 {% endblock %}
 {% block content %}
 <p>{{group.description}}</p>
-<form action="/g/{{group.id}}/subscribe" method="post">
-    {% csrf_token %}
-    <input type="submit" value="Subscribe to Group">
-</form>
+
 {% endblock %}
