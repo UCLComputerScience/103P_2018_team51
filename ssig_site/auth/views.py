@@ -4,6 +4,9 @@ from django.contrib.auth import authenticate, login, logout as auth_logout
 
 from secrets import token_urlsafe, compare_digest
 from urllib.parse import urlencode
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 def start(request):
@@ -33,6 +36,7 @@ def callback(request):
         request.session['state'] = None
         return redirect('index')
     except Exception:
+        logger.exception('authentication failed')
         request.session['state'] = None
         return render(request, 'auth_failed.html')
 
