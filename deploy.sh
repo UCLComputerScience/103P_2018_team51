@@ -48,3 +48,7 @@ echo "Copying files to deployment target"
 
 cp -R ssig_site $DEPLOYMENT_TARGET/
 cp web.config $DEPLOYMENT_TARGET/
+
+echo "Making logs directory"
+
+mkdir $DEPLOYMENT_TARGET/logs
