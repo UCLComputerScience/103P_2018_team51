@@ -26,7 +26,7 @@ def event(request, id):
     return render(request, 'event.html', {'event': event})
 
 
-def group_subscribe(request, id):
+def group_join(request, id):
     group = models.Group.objects.get(id=id)
     current_user = request.user
 
@@ -34,7 +34,7 @@ def group_subscribe(request, id):
     return redirect('group-detail', id)
 
 
-def group_unsubscribe(request, id):
+def group_leave(request, id):
     group = models.Group.objects.get(id=id)
     current_user = request.user
 

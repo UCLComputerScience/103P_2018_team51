@@ -7,6 +7,6 @@ urlpatterns = [
     path('g/<int:id>', views.group, name='group-detail'),
     path('events', views.events, name='events'),
     path('e/<int:id>', views.event, name='event'),
-    path('g/<int:id>/subscribe', views.group_subscribe, name='group-subscribe'),
-    path('g/<int:id>/unsubscribe', views.group_unsubscribe, name='group-unsubscribe')
+    path('g/<int:id>/join', views.group_join, name='group-join'),
+    path('g/<int:id>/leave', views.group_leave, name='group-leave')
 ]
