@@ -12,8 +12,7 @@ def index(request):
 
 def group(request, id):
     this_group = Group.objects.all().get(id=id)
-    group_member = request.user in this_group.user_set.all()
-    return render(request, 'group-detail.html', {'group': this_group, 'group_member': group_member})
+    return render(request, 'group-detail.html', {'group': this_group})
 
 
 def events(request):

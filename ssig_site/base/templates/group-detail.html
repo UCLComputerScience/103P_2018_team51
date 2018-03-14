@@ -3,22 +3,22 @@
 {% block title %}{{group.name}}{% endblock %}
 
 {% block header %}
-<h1>{{group.name}}</h1>
-{% if user.is_authenticated %}
-    {% if not group_member %}
-        <form class="form-inline" action="/g/{{group.id}}/join" method="post">
-            {% csrf_token %}
-            <input type="submit" class="btn btn-light mb-2" value="Join Group">
-        </form>
-    {% else %}
-        <form class="form-inline" action="/g/{{group.id}}/leave" method="post">
-            {% csrf_token %}
-            <input type="submit" class="btn btn-light mb-2" value="Leave Group">
-        </form>
-    {% endif %}
-{% endif %}
+  <h1 class="my-3 mr-3">{{group.name}}</h1>
+  {% if user.is_authenticated %}
+      {% if group not in user.interest_groups.all %}
+          <form class="form-inline" action="/g/{{group.id}}/join" method="post">
+              {% csrf_token %}
+              <input type="submit" class="btn btn-sm btn-light" value="Join Group">
+          </form>
+      {% else %}
+          <form class="form-inline" action="/g/{{group.id}}/leave" method="post">
+              {% csrf_token %}
+              <input type="submit" class="btn btn-sm btn-outline-light" value="Leave Group">
+          </form>
+      {% endif %}
+  {% endif %}
 {% endblock %}
-{% block content %}
-<p>{{group.description}}</p>
 
+{% block content %}
+  <p>{{group.description}}</p>
 {% endblock %}

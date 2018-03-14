@@ -3,12 +3,23 @@
 {% block title %}Groups{% endblock %}
 
 {% block header %}
-  <h1>Groups</h1>
+  <h1 class="my-3">Groups</h1>
 {% endblock %}
 
 {% block content %}
-{% for group in groups %}
-    <a href="{% url 'group-detail' group.id%}"><h2>{{group.name}}</h2></a>
-    <p>{{group.description}}</p>
-{% endfor %}
+  <div class="row my-3">
+    {% for group in groups %}
+      <div class="col-xl-4 my-3 d-flex align-items-stretch">
+        <div class="group-box d-flex flex-column">
+          <h2>{{ group.name }}</h2>
+          <p>{{ group.description }}</p>
+          {% if group in user.interest_groups.all %}
+            <a class="btn btn-outline-primary btn-sm btn-block mt-auto" href="{% url 'group-detail' group.id %}" role="button">More &rarr;</a>
+          {% else %}
+            <a class="btn btn-primary btn-sm btn-block mt-auto" href="{% url 'group-detail' group.id %}" role="button">Join &rarr;</a>
+          {% endif %}
+        </div>
+      </div>
+    {% endfor %}
+  </div>
 {% endblock %}

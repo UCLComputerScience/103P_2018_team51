@@ -1,5 +1,6 @@
 $theme-colors: (
-  "primary": #0b4f6c
+  "primary": #0b4f6c,
+  "light": #e5f2f7
 );
 
 @import "node_modules/bootstrap/scss/bootstrap";
@@ -20,5 +21,49 @@ $theme-colors: (
 #ssigNav {
   h1 {
     color: #fff;
+  }
+}
+
+.group-box, .event-box {
+  background: theme-color("light");
+  padding: 30px;
+
+  h2 {
+    color: theme-color("primary");
+    font-size: 1rem * 1.5;
+    line-height: 1.5rem;
+  }
+
+  p {
+    overflow: hidden;
+  }
+}
+
+.group-box {
+  height: 1.5rem * (6 + 5);
+}
+
+.event-box {
+  height: 1.5rem * (11 + 5);
+
+  .event-details {
+    .event-location {
+      font-size: 75%;
+    }
+  }
+
+  .event-details-date {
+    text-align: center;
+    color: theme-color("primary");
+
+    .event-date {
+      background: #fff;
+      line-height: 1.5rem;
+      border-radius: 50%;
+      height: 1.5rem * (2 + 1);
+      width: 1.5rem * (2 + 1);
+      padding-top: 0.7rem;
+      text-transform: uppercase;
+    }
   }
 }

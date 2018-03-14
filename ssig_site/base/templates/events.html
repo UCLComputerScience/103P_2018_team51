@@ -3,13 +3,41 @@
 {% block title %}Events{% endblock %}
 
 {% block header %}
-  <h1>Events</h1>
+  <h1 class="my-3">Events</h1>
 {% endblock %}
 
 {% block content %}
-<ul>
-  {% for event in events %}
-  <li><a href="{% url 'event' event.id %}">{{ event.title }}</a></li>
-  {% endfor %}
-</ul>
+  <div class="row my-3">
+    {% for event in events %}
+      <div class="col-xl-4 my-3 d-flex align-items-stretch">
+        <div class="event-box d-flex flex-column">
+          <h2>{{ event.title }}</h2>
+          <div class="event-details mb-3">
+            <a href="{% url 'group-detail' event.group.id %}" class="badge badge-secondary">{{ event.group }}</a>
+            <span class="event-location">Location</span>
+          </div>
+          <p>{{ event.description }}</p>
+
+          <div class="event-details-date mt-auto mb-3 row no-gutters align-items-center">
+            <div class="col">
+              <time title="Starts" datetime="{{ event.start_datetime|date:"c" }}">{{ event.start_datetime|time:"h:i A" }}</time>
+            </div>
+            <div class="col">
+              <div class="event-date mx-auto">{{ event.start_datetime|date:"d" }}<br>{{ event.start_datetime | date:"M" }}</div>
+            </div>
+            <div class="col">
+              <time title="Ends" datetime="{{ event.end_datetime|date:"c" }}">
+                {% if event.start_datetime|date == event.end_datetime|date %}
+                  {{ event.end_datetime | time:"h:i A" }}
+                {% else %}
+                  {{ event.end_datetime | date:"d M" }}
+                {% endif %}
+              </time>
+            </div>
+          </div>
+          <a class="btn btn-primary btn-sm btn-block" href="{% url 'event' event.id %}" role="button">Register &rarr;</a>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
 {% endblock %}
