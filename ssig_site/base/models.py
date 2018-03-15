@@ -32,14 +32,16 @@ class GroupUser(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     group = models.ForeignKey(Group, on_delete=models.CASCADE)
 
-    ADMIN = 'a'
-    MEMBER = 'r'
-    STATUS_CHOICES = (
-        (ADMIN, 'Administrator'),
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    LEADER = 'l'
+    MEMBER = 'm'
+    ROLE_CHOICES = (
+        (LEADER, 'Leader'),
         (MEMBER, 'Member')
     )
 
-    status = models.CharField(max_length=2, choices=STATUS_CHOICES, default=MEMBER)
+    role = models.CharField(max_length=2, choices=ROLE_CHOICES, default=MEMBER)
 
     def __str__(self):
         return self.user.upi + ' in ' + self.group.name
