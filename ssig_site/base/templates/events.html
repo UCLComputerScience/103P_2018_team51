@@ -13,7 +13,9 @@
         <div class="event-box d-flex flex-column">
           <h2>{{ event.title }}</h2>
           <div class="event-details mb-3">
-            <a href="{% url 'group-detail' event.group.id %}" class="badge badge-secondary">{{ event.group }}</a>
+            {% if event.group %}
+              <a href="{% url 'group-detail' event.group.id %}" class="badge badge-secondary">{{ event.group }}</a>
+            {% endif %}
             <span class="event-location">Location</span>
           </div>
           <p>{{ event.description }}</p>
