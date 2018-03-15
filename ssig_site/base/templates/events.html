@@ -16,7 +16,7 @@
             {% if event.group %}
               <a href="{% url 'group-detail' event.group.id %}" class="badge badge-secondary">{{ event.group }}</a>
             {% endif %}
-            <span class="event-location">Location</span>
+            <span class="event-location">{{ event.location }}</span>
           </div>
           <p>{{ event.description }}</p>
 
