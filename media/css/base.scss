@@ -27,6 +27,7 @@ $theme-colors: (
 .group-box, .event-box {
   background: theme-color("light");
   padding: 30px;
+  width: 100%;
 
   h2 {
     color: theme-color("primary");
