@@ -4,6 +4,19 @@
 
 {% block header %}
   <h1 class="my-3">{{ event.title }}</h1>
+  {% if user.is_authenticated %}
+      {% if event not in user.events.all %}
+          <form class="form-inline" action="/e/{{event.id}}/join" method="post">
+              {% csrf_token %}
+              <input type="submit" class="btn btn-sm btn-light" value="Join Event">
+          </form>
+      {% else %}
+          <form class="form-inline" action="/e/{{event.id}}/leave" method="post">
+              {% csrf_token %}
+              <input type="submit" class="btn btn-sm btn-outline-light" value="Leave Event">
+          </form>
+      {% endif %}
+  {% endif %}
 {% endblock %}
 
 {% block content %}

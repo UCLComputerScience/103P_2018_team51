@@ -25,6 +25,21 @@ def event(request, id):
     return render(request, 'event.html', {'event': event})
 
 
+def event_join(request, id):
+    event = models.Event.objects.get(id=id)
+    current_user = request.user
+    current_user.events.add(event)
+    return redirect('event', id)
+
+
+def event_leave(request, id):
+    event = models.Event.objects.get(id=id)
+    current_user = request.user
+
+    current_user.events.remove(event)
+    return redirect('event', id)
+
+
 def group_join(request, id):
     group = models.Group.objects.get(id=id)
     current_user = request.user
