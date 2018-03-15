@@ -4,3 +4,8 @@ from . import models
 
 admin.site.register(models.Group)
 admin.site.register(models.Event)
+
+
+@admin.register(models.GroupUser)
+class GroupUserAdmin(admin.ModelAdmin):
+    list_filter = ('group', 'user')

@@ -5,7 +5,7 @@
 {% block header %}
   <h1 class="my-3 mr-3">{{group.name}}</h1>
   {% if user.is_authenticated %}
-      {% if group not in user.interest_groups.all %}
+      {% if user not in group.users.all %}
           <form class="form-inline" action="/g/{{group.id}}/join" method="post">
               {% csrf_token %}
               <input type="submit" class="btn btn-sm btn-light" value="Join Group">
