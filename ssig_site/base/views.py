@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 
-from ssig_site.base.models import Group
+from ssig_site.base.models import Group, GroupUser
 
 from . import models
 
@@ -29,7 +29,8 @@ def group_join(request, id):
     group = models.Group.objects.get(id=id)
     current_user = request.user
 
-    current_user.interest_groups.add(group)
+    group_user = GroupUser(group=group, user=current_user)
+    group_user.save()
     return redirect('group-detail', id)
 
 
@@ -37,5 +38,5 @@ def group_leave(request, id):
     group = models.Group.objects.get(id=id)
     current_user = request.user
 
-    current_user.interest_groups.remove(group)
+    GroupUser.objects.get(group=group, user=current_user).delete()
     return redirect('group-detail', id)

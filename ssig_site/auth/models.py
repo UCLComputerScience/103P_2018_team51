@@ -4,7 +4,6 @@ from django.contrib.auth.models import (
     AbstractBaseUser,
     PermissionsMixin
 )
-from ssig_site.base.models import Group, Event
 
 
 class UserManager(BaseUserManager):
@@ -39,8 +38,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     full_name = models.CharField(max_length=254)
     given_name = models.CharField(max_length=254)
 
-    interest_groups = models.ManyToManyField(Group)
-    events = models.ManyToManyField(Event)
+    events = models.ManyToManyField('base.Event')
 
     objects = UserManager()
 
