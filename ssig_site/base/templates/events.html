@@ -37,7 +37,11 @@
               </time>
             </div>
           </div>
-          <a class="btn btn-primary btn-sm btn-block" href="{% url 'event' event.id %}" role="button">Register &rarr;</a>
+          {% if event in user.events.all %}
+            <a class="btn btn-outline-primary btn-sm btn-block mt-auto" href="{% url 'event' event.id %}" role="button">More &rarr;</a>
+          {% else %}
+            <a class="btn btn-primary btn-sm btn-block mt-auto" href="{% url 'event' event.id %}" role="button">Register &rarr;</a>
+          {% endif %}
         </div>
       </div>
     {% endfor %}
