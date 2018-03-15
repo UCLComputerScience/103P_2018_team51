@@ -18,8 +18,19 @@ gulp.task('sass:watch', () => {
   gulp.watch('./media/css/*', ['sass:build'])
 })
 
-gulp.task('default', () => {
+gulp.task('js:build', () => {
+  gulp.src(['./node_modules/jquery/dist/jquery.slim.min.js',
+            './node_modules/bootstrap/dist/js/bootstrap.bundle.min.js'])
+    .pipe(gulp.dest('./static/js'))
+})
+
+gulp.task('build', () => {
   gulp.start('sass:build')
+  gulp.start('js:build')
+})
+
+gulp.task('default', () => {
+  gulp.start('build')
   gulp.start('django:runserver')
   gulp.start('sass:watch')
 })

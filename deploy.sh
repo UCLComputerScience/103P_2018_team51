@@ -20,13 +20,14 @@ echo "Installing gulp-cli"
 
 npm install -g gulp-cli -q
 
-echo "Cleaning up sass files"
+echo "Cleaning up css/js files"
 
 rm -r static/css
+rm -r static/js
 
-echo "Building sass files"
+echo "Building sass/js files"
 
-gulp sass:build
+gulp build
 
 echo "Collecting static files"
 
