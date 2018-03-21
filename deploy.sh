@@ -20,6 +20,10 @@ echo "Installing gulp-cli"
 
 npm install -g gulp-cli -q
 
+echo "Installing pip dependencies"
+
+python -m pip install -r requirements.txt -q
+
 echo "Cleaning up css/js files"
 
 rm -r static/css
@@ -32,10 +36,6 @@ gulp build
 echo "Collecting static files"
 
 python manage.py collectstatic --noinput --clear
-
-echo "Installing pip dependencies"
-
-python -m pip install -r requirements.txt -q
 
 echo "Running migrations"
 
