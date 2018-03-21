@@ -1,10 +1,13 @@
+@import url('https://fonts.googleapis.com/css?family=Lato:400,700');
+
 $theme-colors: (
   "primary": #0b4f6c,
   "light": #e5f2f7
 );
 
 @import "node_modules/bootstrap/scss/bootstrap";
-@import url('https://fonts.googleapis.com/css?family=Lato:400,700');
+@import "metricsgraphics.css";
+@import "metricsgraphics-em-fix";
 
 #ixnNav {
   a {
@@ -67,4 +70,8 @@ $theme-colors: (
       text-transform: uppercase;
     }
   }
+}
+
+.metrics-graph {
+  font-size: 12px;
 }

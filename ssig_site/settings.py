@@ -37,8 +37,10 @@ SESSION_COOKIE_SECURE = config('SESSION_COOKIE_SECURE', default=True, cast=bool)
 INSTALLED_APPS = [
     'ssig_site.base',
     'ssig_site.auth',
+    'ssig_site.metrics',
 
     'django_extensions',
+    'autofixture',
 
     'django.contrib.admin',
     'django.contrib.auth',
@@ -149,6 +151,8 @@ AUTHENTICATION_BACKENDS = [
 ]
 
 AUTH_USER_MODEL = 'ssig_site_auth.User'
+
+LOGIN_URL = '/auth'
 
 
 # Logging

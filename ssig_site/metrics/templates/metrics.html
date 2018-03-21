@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Metrics{% endblock %}
+
+{% block header %}
+  <h1 class="my-3">Metrics</h1>
+{% endblock %}
+
+{% block content %}
+  <div class="row my-3">
+    <div class="col-lg-6">
+      <div id="total-users" class="metrics-graph"></div>
+    </div>
+    <div class="col-lg-6 text-center">
+      <div id="new-users" class="metrics-graph"></div>
+      <div id="new-users-controls" class="btn-group" role="group" aria-label="Period">
+        <span class="btn btn-sm btn-outline-secondary disabled">Period</span>
+        <button type="button" class="btn btn-sm btn-outline-secondary active" data-period="day">Day</button>
+        <button type="button" class="btn btn-sm btn-outline-secondary" data-period="week">Week</button>
+        <button type="button" class="btn btn-sm btn-outline-secondary" data-period="month">Month</button>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block scripts %}
+  <script src="{% static 'js/d3.min.js' %}"></script>
+  <script src="{% static 'js/metricsgraphics.min.js' %}"></script>
+  <script src="{% static 'js/metrics.js' %}"></script>
+{% endblock %}

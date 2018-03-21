@@ -10,6 +10,8 @@ logger = logging.getLogger(__name__)
 
 
 def start(request):
+    request.session['next'] = request.GET.get('next')
+
     state = token_urlsafe(64)
     request.session['state'] = state
 
@@ -34,7 +36,7 @@ def callback(request):
             raise Exception
 
         request.session['state'] = None
-        return redirect('index')
+        return redirect(request.session['next'])
     except Exception:
         logger.exception('authentication failed')
         request.session['state'] = None
