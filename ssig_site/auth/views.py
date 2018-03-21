@@ -36,10 +36,10 @@ def callback(request):
             raise Exception
 
         request.session['state'] = None
-        return redirect(request.session['next'])
+        return redirect(request.session['next'] or 'index')
     except Exception:
         logger.exception('authentication failed')
-        request.session['state'] = None
+        auth_logout(request)
         return render(request, 'auth_failed.html')
 
 
