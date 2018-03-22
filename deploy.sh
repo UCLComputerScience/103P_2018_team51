@@ -52,4 +52,4 @@ cp web.config $DEPLOYMENT_TARGET/
 
 echo "Making logs directory"
 
-mkdir $DEPLOYMENT_TARGET/logs
+mkdir -p $DEPLOYMENT_TARGET/logs
