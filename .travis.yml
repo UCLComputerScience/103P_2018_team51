@@ -1,8 +1,8 @@
 language: python
 python:
   - "3.6"
-script:
-  - flake8 ssig_site
+install: pip install flake8
+script: flake8 ssig_site
 notifications:
   email: false
 deploy:
