@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Metrics - {{ event.title }}{% endblock %}
+
+{% block header %}
+  <h1 class="my-3">Metrics - {{ event.title }}</h1>
+{% endblock %}
+
+{% block content %}
+  <div class="row my-3 content">
+    {% include 'graph.html' with name='event_registration' %}
+    {% include 'graph.html' with name='event_attendance' %}
+  </div>
+{% endblock %}
+
+{% block scripts %}
+  <script src="{% static 'js/d3.min.js' %}"></script>
+  <script src="{% static 'js/metricsgraphics.min.js' %}"></script>
+  <script src="{% static 'js/metrics.js' %}"></script>
+  <script>
+    createGraph('event_registration', 'Registration')
+    createGraph('event_attendance', 'Attendance')
+  </script>
+{% endblock %}

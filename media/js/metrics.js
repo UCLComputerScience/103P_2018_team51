@@ -1,41 +1,33 @@
 const DATE_FORMAT = '%Y-%m-%dT%H:%M:%SZ'
 
-d3.json('data/total_users.json', data => {
-  data = MG.convert.date(data, 'date', DATE_FORMAT)
-  MG.data_graphic({
-    title: "Total Users",
-    data: data,
-    interpolate: d3.curveLinear,
-    full_width: true,
-    height: 300,
-    target: '#total-users',
-    y_accessor: 'total'
-  })
-})
-
-var new_users = {
-  title: "New Users",
+var default_settings = {
   interpolate: d3.curveLinear,
   full_width: true,
   height: 300,
-  target: '#new-users',
   y_accessor: 'total',
   transition_on_update: false
 }
 
-d3.json('data/new_users/day.json', data => {
-  data = MG.convert.date(data, 'date', DATE_FORMAT)
-  new_users.data = data
-  MG.data_graphic(new_users)
-})
-
-$('#new-users-controls button').click(function () {
-  $(this).addClass('active').siblings().removeClass('active')
-
-  var period = $(this).data('period')
-  d3.json(`data/new_users/${period}.json`, data => {
-    data = MG.convert.date(data, 'date', DATE_FORMAT)
-    new_users.data = data
-    MG.data_graphic(new_users)
+function createGraph(name, title) {
+  var settings = Object.assign({}, default_settings, {
+    title: title,
+    target: '#' + name,
   })
-})
+
+  d3.json(`data/${name}/week.json`, data => {
+    data = MG.convert.date(data, 'date', DATE_FORMAT)
+    settings.data = data
+    MG.data_graphic(settings)
+  })
+
+  $(`#${name}-controls button`).click(function () {
+    $(this).addClass('active').siblings().removeClass('active')
+
+    var period = $(this).data('period')
+    d3.json(`data/${name}/${period}.json`, data => {
+      data = MG.convert.date(data, 'date', DATE_FORMAT)
+      settings.data = data
+      MG.data_graphic(settings)
+    })
+  })
+}

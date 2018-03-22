@@ -1,19 +1,18 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %}Metrics{% endblock %}
+{% block title %}Metrics - {{ group.name }}{% endblock %}
 
 {% block header %}
-  <h1 class="my-3">Metrics</h1>
+  <h1 class="my-3">Metrics - {{ group.name }}</h1>
 {% endblock %}
 
 {% block content %}
   <div class="row my-3 content">
     {% include 'graph.html' with name='event_registration' %}
     {% include 'graph.html' with name='event_attendance' %}
-    {% include 'graph.html' with name='user_registration' %}
-    {% include 'graph.html' with name='group_join' %}
     {% include 'graph.html' with name='create_event' %}
+    {% include 'graph.html' with name='group_join' %}
   </div>
 {% endblock %}
 
@@ -22,10 +21,9 @@
   <script src="{% static 'js/metricsgraphics.min.js' %}"></script>
   <script src="{% static 'js/metrics.js' %}"></script>
   <script>
-    createGraph('event_registration', 'Registration: All Events')
-    createGraph('event_attendance', 'Attendance: All Events')
-    createGraph('user_registration', 'New Users')
-    createGraph('group_join', 'New Group Members')
+    createGraph('event_registration', 'Registration: All Group Events')
+    createGraph('event_attendance', 'Attendance: All Group Events')
     createGraph('create_event', 'New Events')
+    createGraph('group_join', 'New Group Members')
   </script>
 {% endblock %}

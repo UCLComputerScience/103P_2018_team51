@@ -3,6 +3,8 @@ from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 
 from . import models, forms
+from ssig_site.metrics.models import Metric
+from ssig_site.metrics.views import fetch_data
 
 
 def group_user_role(group, user):
@@ -117,6 +119,13 @@ def event_delete(request, id):
     if request.user.is_staff or group_user_role(event.group, request.user) == models.GroupUser.LEADER:
         event = models.Event.objects.get(id=id)
         event.delete()
+
+        Metric(name='create_event',
+               increment=-1,
+               data={'event_id': event.id,
+                     'group_id': None if event.group is None else event.group.id,
+                     }).save()
+
         return redirect('events')
 
 
@@ -157,12 +166,31 @@ def event_attendance(request, id):
             })
 
 
+def event_metrics(request, id):
+    event = models.Event.objects.get(id=id)
+    if request.user.is_staff or group_user_role(event.group, request.user) == models.GroupUser.LEADER:
+        return render(request, 'event-metrics.html', {'event': event})
+
+
+def event_data(request, id, name, period):
+    event = models.Event.objects.get(id=id)
+    if request.user.is_staff or group_user_role(event.group, request.user) == models.GroupUser.LEADER:
+        return fetch_data(period, {'name': name, 'data__event_id': id})
+
+
 def group_join(request, id):
     group = models.Group.objects.get(id=id)
     current_user = request.user
 
     group_user = models.GroupUser(group=group, user=current_user)
     group_user.save()
+
+    Metric(name='group_join',
+           data={'group_id': group.id,
+                 'user_id': current_user.id,
+                 'user_department': current_user.department,
+                 }).save()
+
     return redirect('group-detail', id)
 
 
@@ -171,6 +199,14 @@ def group_leave(request, id):
     current_user = request.user
 
     models.GroupUser.objects.get(group=group, user=current_user).delete()
+
+    Metric(name='group_join',
+           increment=-1,
+           data={'group_id': group.id,
+                 'user_id': current_user.id,
+                 'user_department': current_user.department,
+                 }).save()
+
     return redirect('group-detail', id)
 
 
@@ -187,9 +223,27 @@ def create_event(request, id):
             if form.is_valid():
                 event = models.Event(**form.cleaned_data)
                 event.save()
+
+                Metric(name='create_event',
+                       data={'event_id': event.id,
+                             'group_id': None if event.group is None else event.group.id,
+                             }).save()
+
                 return redirect('event', event.id)
             else:
                 return render(request, 'create-event.html', {'group': group, 'form': form})
+
+
+def group_metrics(request, id):
+    group = models.Group.objects.get(id=id)
+    if request.user.is_staff or group_user_role(group, request.user) == models.GroupUser.LEADER:
+        return render(request, 'group-metrics.html', {'group': group})
+
+
+def group_data(request, id, name, period):
+    group = models.Group.objects.get(id=id)
+    if request.user.is_staff or group_user_role(group, request.user) == models.GroupUser.LEADER:
+        return fetch_data(period, {'name': name, 'data__group_id': id})
 
 
 @login_required

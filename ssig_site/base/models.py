@@ -1,5 +1,6 @@
 from django.db import models
 from ssig_site.auth.models import User
+from ssig_site.metrics.models import Metric
 
 import qrcode
 from qrcode.image.svg import SvgPathImage as qr_image_factory
@@ -52,12 +53,29 @@ class Event(models.Model):
     def register(self, user):
         ticket = Ticket(event=self, user=user)
         ticket.save()
+
+        Metric(name='event_registration',
+               data={'event_id': self.id,
+                     'group_id': None if self.group is None else self.group.id,
+                     'user_id': user.id,
+                     'user_department': user.department,
+                     }).save()
+
         return ticket
 
     def unregister(self, user):
         try:
             ticket = Ticket.objects.get(event=self, user=user)
             ticket.delete()
+
+            Metric(name='event_registration',
+                   increment=-1,
+                   data={'event_id': self.id,
+                         'group_id': None if self.group is None else self.group.id,
+                         'user_id': user.id,
+                         'user_department': user.department,
+                         }).save()
+
         except (Ticket.DoesNotExist, TypeError):
             return None
 
@@ -73,6 +91,14 @@ class Event(models.Model):
             ticket.save()
             success = True
             message = f'Successfully registered {user.full_name}\'s attendance.'
+
+            Metric(name='event_attendance',
+                   data={'event_id': self.id,
+                         'group_id': None if self.group is None else self.group.id,
+                         'user_id': user.id,
+                         'user_department': user.department,
+                         }).save()
+
         return {'success': success, 'message': message}
 
 

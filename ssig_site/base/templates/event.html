@@ -25,6 +25,7 @@
 {% block header-dropdown %}
 {% if user.is_staff or user_role == leader_role %}
   <a class="dropdown-item" href="{% url 'event-attendance' event.id %}">Attendance Registration</a>
+  <a class="dropdown-item" href="{% url 'event-metrics' event.id %}">Event Metrics</a>
   <div class="dropdown-divider"></div>
   <a class="dropdown-item" href="{% url 'event-edit' event.id %}">Edit Event</a>
   <a class="dropdown-item" href="{% url 'event-delete' event.id %}">Delete Event</a>

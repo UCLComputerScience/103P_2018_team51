@@ -46,14 +46,12 @@ class UCL:
                     full_name=user_res['full_name'],
                     given_name=user_res['given_name']
                 )
-                metric = Metric(
-                    name='user_registration',
-                    data={
-                        'ucl': True,
-                        'department': user.department
-                    }
-                )
-                metric.save()
+
+                Metric(name='user_registration',
+                       data={'user_id': user.id,
+                             'user_department': user.department,
+                             }).save()
+
             return user
 
         return None
