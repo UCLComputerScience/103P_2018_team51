@@ -9,12 +9,12 @@
   <h1 class="my-3 mr-3">{{ event.title }}</h1>
   {% if user.is_authenticated %}
       {% if event not in user.events.all %}
-          <form class="form-inline" action="/e/{{event.id}}/join" method="post">
+          <form class="form-inline" action="/e/{{event.id}}/register" method="post">
               {% csrf_token %}
               <input type="submit" class="btn btn-sm btn-light" value="Register">
           </form>
       {% else %}
-          <form class="form-inline" action="/e/{{event.id}}/leave" method="post">
+          <form class="form-inline" action="/e/{{event.id}}/unregister" method="post">
               {% csrf_token %}
               <input type="submit" class="btn btn-sm btn-outline-light" value="Unregister">
           </form>
