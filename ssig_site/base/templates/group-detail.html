@@ -20,5 +20,18 @@
 {% endblock %}
 
 {% block content %}
-  <p>{{group.description}}</p>
+<div class="row my-3">
+  <div class="col my-3">
+      <p>{{ group.description }}</p>
+  </div>
+  <div class="col-xl-4">
+    {% for event in group.event_set.all %}
+      <div class="row">
+        <div class="col my-3">
+          {% include "./events-box.html" %}
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</div>
 {% endblock %}

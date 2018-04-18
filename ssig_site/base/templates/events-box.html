@@ -1,0 +1,17 @@
+<div class="event-box d-flex flex-column">
+  <h2>{{ event.title }}</h2>
+  <div class="event-details mb-3">
+    {% if event.group %}
+      <a href="{% url 'group-detail' event.group.id %}" class="badge badge-secondary">{{ event.group }}</a>
+    {% endif %}
+    <span class="event-location">{{ event.location }}</span>
+  </div>
+  <p>{{ event.short_description }}</p>
+
+  {% include 'event-time.html' %}
+  {% if event in user.events.all %}
+    <a class="btn btn-outline-primary btn-sm btn-block mt-auto" href="{% url 'event' event.id %}" role="button">More &rarr;</a>
+  {% else %}
+    <a class="btn btn-primary btn-sm btn-block mt-auto" href="{% url 'event' event.id %}" role="button">Register &rarr;</a>
+  {% endif %}
+</div>
