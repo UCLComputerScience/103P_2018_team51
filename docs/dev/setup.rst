@@ -137,3 +137,27 @@ Then update your ``.env`` file to include the *Client ID* and *Client Secret* fr
   UCLAPI_CLIENT_SECRET=0123456789abcdef
 
 Test you've setup your credentials correctly by attempting to log in by visiting ``/auth``.
+
+Google Maps API Key
+-------------------
+
+A Google Maps API key is necessary for displaying the maps on event pages.
+
+To get your key:
+
+#. Visit https://console.developers.google.com/cloud-resource-manager and sign in
+#. Click "Create a Project"
+#. Give your project a name, perhaps "SSIG site dev"
+#. Click "Create"
+#. Click on your newly created project
+#. Visit https://console.developers.google.com/apis/api/maps-backend.googleapis.com/overview
+#. Click "Enable", wait for the API to be enabled for your project
+#. Visit https://console.developers.google.com/apis/credentials/wizard?api=maps-backend.googleapis.com
+#. Click "What credentials do I need?"
+#. Your API key will be displayed
+
+Then update your ``.env`` file to include the API key:
+
+.. code-block:: none
+
+  GOOGLE_MAPS_KEY=0123456789abcdef

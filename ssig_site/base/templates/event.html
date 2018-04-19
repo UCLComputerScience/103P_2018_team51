@@ -1,6 +1,9 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}{{ event.title }}{% endblock %}
+
+{% block body_classes %}event-page{% endblock %}
 
 {% block header %}
   <h1 class="my-3 mr-3">{{ event.title }}</h1>
@@ -20,12 +23,27 @@
 {% endblock %}
 
 {% block content %}
-<p>
-{{event.group}}
-</p>
-{{ event.start_datetime }}
-{{ event.end_datetime }}
-<p>
-  {{ event.description }}
-</p>
+<div class="event-map-wrapper"><div class="event-map"></div></div>
+<div class="row event-body py-3">
+  <div class="col">
+      {{ event.long_description | safe }}
+  </div>
+  <div class="col-xl-4">
+    {% include 'event-time.html' %}
+    <h6>Location:</h6>
+    <p>
+      {{ event.location }}<br>
+      <a href="https://www.google.com/maps/search/{{ event.latitude }},+{{ event.longitude }}" target="_blank">View on map</a>
+    </p>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+  <script>
+    var event_latitude = {{ event.latitude }}
+    var event_longitude = {{ event.longitude }}
+  </script>
+  <script src="{% static 'js/event.js' %}"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key={{ GOOGLE_MAPS_KEY }}&callback=init_map" async defer></script>
 {% endblock %}

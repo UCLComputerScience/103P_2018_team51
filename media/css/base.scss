@@ -9,7 +9,21 @@ $theme-colors: (
 @import "metricsgraphics.css";
 @import "metricsgraphics-em-fix";
 
+body {
+  font-family: Lato, Helvetica, Arial, "sans-serif";
+
+  &.event-page {
+    background: theme-color("primary");
+
+    #ssigNav {
+      background: transparent;
+    }
+  }
+}
+
 #ixnNav {
+  background-color: #fff;
+
   a {
     fill: theme-color("primary");
     color: theme-color("primary");
@@ -22,6 +36,8 @@ $theme-colors: (
 }
 
 #ssigNav {
+  background: theme-color("primary");
+
   h1 {
     color: #fff;
   }
@@ -55,23 +71,47 @@ $theme-colors: (
       font-size: 75%;
     }
   }
+}
 
-  .event-details-date {
-    text-align: center;
-    color: theme-color("primary");
+.event-details-date {
+  text-align: center;
+  color: theme-color("primary");
 
-    .event-date {
-      background: #fff;
-      line-height: 1.5rem;
-      border-radius: 50%;
-      height: 1.5rem * (2 + 1);
-      width: 1.5rem * (2 + 1);
-      padding-top: 0.7rem;
-      text-transform: uppercase;
-    }
+  .event-date {
+    background: #fff;
+    line-height: 1.5rem;
+    border-radius: 50%;
+    height: 1.5rem * (2 + 1);
+    width: 1.5rem * (2 + 1);
+    padding-top: 0.7rem;
+    text-transform: uppercase;
   }
 }
 
 .metrics-graph {
   font-size: 12px;
+}
+
+.event-map-wrapper {
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: -1;
+  position: fixed;
+
+  .event-map {
+    height: 100%;
+    width: 100%;
+  }
+}
+
+.event-body {
+  background-color: #fff;
+  margin-top: 200px;
+
+  .event-date {
+    background: theme-color("primary");
+    color: #fff;
+  }
 }

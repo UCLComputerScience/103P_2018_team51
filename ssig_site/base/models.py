@@ -17,10 +17,13 @@ class Group(models.Model):
 
 class Event(models.Model):
     title = models.CharField(max_length=200)
-    description = models.TextField()
+    short_description = models.TextField()
+    long_description = models.TextField()
     start_datetime = models.DateTimeField()
     end_datetime = models.DateTimeField()
     location = models.CharField(max_length=200)
+    latitude = models.DecimalField(max_digits=8, decimal_places=6)
+    longitude = models.DecimalField(max_digits=9, decimal_places=6)
 
     group = models.ForeignKey(Group, on_delete=models.CASCADE, blank=True, null=True)
 
