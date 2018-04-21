@@ -63,6 +63,7 @@
                   {{user.given_name}}
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
+                  {% block header-dropdown %}{% endblock %}
                   {% if user.is_staff %}
                     <a class="dropdown-item" href="{% url 'admin:index' %}">Site Administration</a>
                     {% url 'metrics-dashboard' as metrics_url %}

@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+
+{% block title %}
+{% if request.resolver_match.view_name == 'event-edit' %}
+  Edit Event - {{group.name}}
+{% else %}
+  Create Event - {{group.name}}
+{% endif %}
+{% endblock %}
+
+{% block header %}
+  {% if request.resolver_match.view_name == 'event-edit' %}
+    <h1 class="my-3 mr-3">Edit {{group.name}} Event</h1>
+  {% else %}
+    <h1 class="my-3 mr-3">Create {{group.name}} Event</h1>
+  {% endif %}
+{% endblock %}
+
+{% block content %}
+  <form method="POST" class="form my-3">
+
+    {% csrf_token %}
+
+    {% for hidden_field in form.hidden_fields %}
+      {{ hidden_field }}
+    {% endfor %}
+
+    {{ form.non_field_errors }}
+
+    <div class="form-group">
+      <label for="{{ form.title.id_for_label }}">Title</label>
+      {{ form.title }}
+      <div class="invalid-feedback">
+        {{ form.title.errors }}
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="{{ form.short_description.id_for_label }}">Short Description</label>
+      {{ form.short_description }}
+      <small class="form-text text-muted">
+        Should be less than a few lines long, and contain only plain text.
+      </small>
+      <div class="invalid-feedback">
+        {{ form.short_description.errors }}
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="{{ form.long_description.id_for_label }}">Long Description</label>
+      {{ form.long_description }}
+      <small class="form-text text-muted">
+        Optional, can contain HTML.
+      </small>
+      <div class="invalid-feedback">
+        {{ form.long_description.errors }}
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="{{ form.start_datetime.id_for_label }}">Start Date and Time</label>
+      {{ form.start_datetime }}
+      <div class="invalid-feedback">
+        {{ form.start_datetime.errors }}
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="{{ form.start_datetime.id_for_label }}">Start Date and Time</label>
+      {{ form.end_datetime }}
+      <div class="invalid-feedback">
+        {{ form.start_datetime.errors }}
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="{{ form.location.id_for_label }}">Location</label>
+      {{ form.location }}
+      <div class="invalid-feedback">
+        {{ form.location.errors }}
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group col">
+        <label for="{{ form.latitude.id_for_label }}">Latitude</label>
+        {{ form.latitude }}
+        <div class="invalid-feedback">
+          {{ form.latitude.errors }}
+        </div>
+      </div>
+
+      <div class="form-group col">
+        <label for="{{ form.latitude.id_for_label }}">Longitude</label>
+        {{ form.longitude }}
+        <div class="invalid-feedback">
+          {{ form.longitude.errors }}
+        </div>
+      </div>
+    </div>
+
+    {% if request.resolver_match.view_name == 'event-edit' %}
+      <input type="submit" value="Edit" class="btn btn-primary">
+    {% else %}
+      <input type="submit" value="Create" class="btn btn-primary">
+    {% endif %}
+  </form>
+{% endblock %}

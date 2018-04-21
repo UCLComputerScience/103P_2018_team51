@@ -1,0 +1,12 @@
+<div class="input-group">
+  <input type="date"
+    name="{{ widget.subwidgets.0.name }}"
+    {% if widget.subwidgets.0.value != None %} value="{{ widget.subwidgets.0.value|stringformat:'s' }}"{% endif %}
+    {% include "django/forms/widgets/attrs.html" %}
+    {% include "forms/widgets/class.html" %}>
+  <input type="time"
+    name="{{ widget.subwidgets.1.name }}"
+    {% if widget.subwidgets.1.value != None %} value="{{ widget.subwidgets.1.value|stringformat:'s' }}"{% endif %}
+    {% include "django/forms/widgets/attrs.html" %}
+    {% include "forms/widgets/class.html" %}>
+</div>

@@ -6,17 +6,24 @@
   <h1 class="my-3 mr-3">{{group.name}}</h1>
   {% if user.is_authenticated %}
       {% if user not in group.users.all %}
-          <form class="form-inline" action="/g/{{group.id}}/join" method="post">
+          <form class="form-inline mr-3" action="/g/{{group.id}}/join" method="post">
               {% csrf_token %}
               <input type="submit" class="btn btn-sm btn-light" value="Join Group">
           </form>
       {% else %}
-          <form class="form-inline" action="/g/{{group.id}}/leave" method="post">
+          <form class="form-inline mr-3" action="/g/{{group.id}}/leave" method="post">
               {% csrf_token %}
               <input type="submit" class="btn btn-sm btn-outline-light" value="Leave Group">
           </form>
       {% endif %}
   {% endif %}
+{% endblock %}
+
+{% block header-dropdown %}
+{% if user.is_staff or user_role == leader_role %}
+  <a class="dropdown-item" href="{% url 'create-event' group.id %}">Create Event</a>
+  <div class="dropdown-divider"></div>
+{% endif %}
 {% endblock %}
 
 {% block content %}

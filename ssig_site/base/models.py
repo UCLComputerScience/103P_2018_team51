@@ -18,7 +18,7 @@ class Group(models.Model):
 class Event(models.Model):
     title = models.CharField(max_length=200)
     short_description = models.TextField()
-    long_description = models.TextField()
+    long_description = models.TextField(blank=True)
     start_datetime = models.DateTimeField()
     end_datetime = models.DateTimeField()
     location = models.CharField(max_length=200)

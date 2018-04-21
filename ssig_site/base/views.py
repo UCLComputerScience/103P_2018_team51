@@ -1,29 +1,42 @@
 from django.shortcuts import render, redirect
 from django.utils import timezone
 
-from ssig_site.base.models import Group, GroupUser
+from . import models, forms
 
-from . import models
+
+def group_user_role(group, user):
+    try:
+        group_user = models.GroupUser.objects.get(user=user, group=group)
+        return group_user.role
+    except (models.GroupUser.DoesNotExist, TypeError):
+        return None
 
 
 def index(request):
-    groups = Group.objects.all()
+    groups = models.Group.objects.all()
     return render(request, 'groups.html', {'groups': groups})
 
 
 def group(request, id):
-    this_group = Group.objects.all().get(id=id)
+    this_group = models.Group.objects.all().get(id=id)
     now = timezone.now()
     events = this_group.event_set.filter(end_datetime__gt=now).order_by('start_datetime', 'end_datetime')[:2]
     timespan = 'future'
     if len(events) == 0:
         events = this_group.event_set.filter(end_datetime__lte=now).order_by('-start_datetime', '-end_datetime')[:2]
         timespan = 'past'
-    return render(request, 'group-detail.html', {'group': this_group, 'events': events, 'timespan': timespan})
+
+    return render(request, 'group-detail.html', {
+        'group': this_group,
+        'events': events,
+        'timespan': timespan,
+        'user_role': group_user_role(this_group, request.user),
+        'leader_role': models.GroupUser.LEADER,
+    })
 
 
 def events(request, filter='all', time='future'):
-    groups = Group.objects.all()
+    groups = models.Group.objects.all()
     now = timezone.now()
 
     if filter == 'all':
@@ -52,7 +65,9 @@ def events(request, filter='all', time='future'):
 
 def event(request, id):
     event = models.Event.objects.get(id=id)
-    return render(request, 'event.html', {'event': event})
+    return render(request, 'event.html', {'event': event,
+                                          'user_role': group_user_role(event.group, request.user),
+                                          'leader_role': models.GroupUser.LEADER})
 
 
 def event_register(request, id):
@@ -70,11 +85,36 @@ def event_unregister(request, id):
     return redirect('event', id)
 
 
+def event_edit(request, id):
+    event = models.Event.objects.get(id=id)
+    if request.user.is_staff or group_user_role(event.group, request.user) == models.GroupUser.LEADER:
+
+        if request.method == 'GET':
+            form = forms.EventForm(instance=event)
+            return render(request, 'create-event.html', {'group': event.group, 'form': form})
+
+        if request.method == 'POST':
+            form = forms.EventForm(request.POST)
+            if form.is_valid():
+                models.Event.objects.filter(id=id).update(**form.cleaned_data)
+                return redirect('event', event.id)
+            else:
+                return render(request, 'create-event.html', {'group': group, 'form': form})
+
+
+def event_delete(request, id):
+    event = models.Event.objects.get(id=id)
+    if request.user.is_staff or group_user_role(event.group, request.user) == models.GroupUser.LEADER:
+        event = models.Event.objects.get(id=id)
+        event.delete()
+        return redirect('events')
+
+
 def group_join(request, id):
     group = models.Group.objects.get(id=id)
     current_user = request.user
 
-    group_user = GroupUser(group=group, user=current_user)
+    group_user = models.GroupUser(group=group, user=current_user)
     group_user.save()
     return redirect('group-detail', id)
 
@@ -83,5 +123,23 @@ def group_leave(request, id):
     group = models.Group.objects.get(id=id)
     current_user = request.user
 
-    GroupUser.objects.get(group=group, user=current_user).delete()
+    models.GroupUser.objects.get(group=group, user=current_user).delete()
     return redirect('group-detail', id)
+
+
+def create_event(request, id):
+    group = models.Group.objects.get(id=id)
+    if request.user.is_staff or group_user_role(group, request.user) == models.GroupUser.LEADER:
+
+        if request.method == 'GET':
+            form = forms.EventForm(initial={'group': group})
+            return render(request, 'create-event.html', {'group': group, 'form': form})
+
+        if request.method == 'POST':
+            form = forms.EventForm(request.POST)
+            if form.is_valid():
+                event = models.Event(**form.cleaned_data)
+                event.save()
+                return redirect('event', event.id)
+            else:
+                return render(request, 'create-event.html', {'group': group, 'form': form})
