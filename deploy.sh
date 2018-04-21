@@ -12,6 +12,10 @@ function python () {
   "/d/home/python364x86/python.exe" "$@"
 }
 
+function gulp () {
+  "/d/local/AppData/npm/gulp" "$@"
+}
+
 echo "Installing node dependencies"
 
 npm install -q
