@@ -24,14 +24,18 @@
   <div class="col my-3">
       <p>{{ group.description }}</p>
   </div>
-  <div class="col-xl-4">
-    {% for event in group.event_set.all %}
+  <div class="col-xl-4 my-3">
+    <h3>{{ timespan|title }} Events</h3>
+    {% for event in events %}
       <div class="row">
         <div class="col my-3">
           {% include "./events-box.html" %}
         </div>
       </div>
     {% endfor %}
+    <div class="text-center">
+      <a href="{% url 'events' group.id timespan %}">See all {{ timespan }} events &rarr;</a>
+    </div>
   </div>
 </div>
 {% endblock %}

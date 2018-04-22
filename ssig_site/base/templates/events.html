@@ -3,7 +3,40 @@
 {% block title %}Events{% endblock %}
 
 {% block header %}
-  <h1 class="my-3">Events</h1>
+  <h1 class="my-3 mr-3">Events</h1>
+  <div class="btn-group mr-3">
+    <span class="btn btn-sm btn-light disabled">Group</span>
+    <button class="btn btn-sm btn-light dropdown-toggle" type="button" id="group-dropdown-button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      {{ active_filter }}
+    </button>
+    <div class="dropdown-menu" aria-labelledby="group-dropdown-button">
+      {% url 'events' as events_url %}
+      {% url 'events' 'all' timespan as events_all_url %}
+      <a class="dropdown-item {% if request.path == events_url or request.path == events_all_url %}active{% endif %}" href="{{ events_all_url }}">All</a>
+      {% url 'events' 'none' timespan as events_none_url %}
+      <a class="dropdown-item {% if request.path == events_none_url %}active{% endif %}" href="{{ events_none_url }}">None</a>
+      <div class="dropdown-divider"></div>
+      {% for group in groups %}
+        {% url 'events' group.id timespan as events_group_url %}
+        <a class="dropdown-item {% if request.path == events_group_url %}active{% endif %}" href="{{ events_group_url }}">{{ group.name }}</a>
+      {% endfor %}
+    </div>
+  </div>
+  <div class="btn-group mr-3">
+    <span class="btn btn-sm btn-light disabled">Timespan</span>
+    <button class="btn btn-sm btn-light dropdown-toggle" type="button" id="time-dropdown-button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      {{ timespan|title }}
+    </button>
+    <div class="dropdown-menu" aria-labelledby="time-dropdown-button">
+      {% url 'events' as events_url %}
+      {% url 'events' filter 'future' as events_future_url %}
+      <a class="dropdown-item {% if request.path == events_url or request.path == events_future_url %}active{% endif %}" href="{{ events_future_url }}">Future</a>
+      {% url 'events' filter 'past' as events_past_url %}
+      <a class="dropdown-item {% if request.path == events_past_url %}active{% endif %}" href="{{ events_past_url }}">Past</a>
+      {% url 'events' filter 'all' as events_all_url %}
+      <a class="dropdown-item {% if request.path == events_all_url %}active{% endif %}" href="{{ events_all_url }}">All</a>
+    </div>
+  </div>
 {% endblock %}
 
 {% block content %}

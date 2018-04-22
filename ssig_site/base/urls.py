@@ -6,6 +6,7 @@ urlpatterns = [
     path('', views.index, name='index'),
 
     path('events', views.events, name='events'),
+    path('events/<str:filter>/<str:time>', views.events, name='events'),
     path('e/<int:id>', views.event, name='event'),
     path('e/<int:id>/register', views.event_register, name='event-register'),
     path('e/<int:id>/unregister', views.event_unregister, name='event-unregister'),

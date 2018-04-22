@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.utils import timezone
 
 from ssig_site.base.models import Group, GroupUser
 
@@ -12,12 +13,41 @@ def index(request):
 
 def group(request, id):
     this_group = Group.objects.all().get(id=id)
-    return render(request, 'group-detail.html', {'group': this_group})
+    now = timezone.now()
+    events = this_group.event_set.filter(end_datetime__gt=now).order_by('start_datetime', 'end_datetime')[:2]
+    timespan = 'future'
+    if len(events) == 0:
+        events = this_group.event_set.filter(end_datetime__lte=now).order_by('-start_datetime', '-end_datetime')[:2]
+        timespan = 'past'
+    return render(request, 'group-detail.html', {'group': this_group, 'events': events, 'timespan': timespan})
 
 
-def events(request):
-    events = models.Event.objects.all()
-    return render(request, 'events.html', {'events': events})
+def events(request, filter='all', time='future'):
+    groups = Group.objects.all()
+    now = timezone.now()
+
+    if filter == 'all':
+        events = models.Event.objects.all()
+        active_filter = 'All'
+    elif filter == 'none':
+        events = models.Event.objects.filter(group=None)
+        active_filter = 'None'
+    else:
+        events = models.Event.objects.filter(group=filter)
+        active_filter = groups.get(id=filter).name
+
+    if time == 'future':
+        events = events.filter(end_datetime__gt=now)
+    elif time == 'past':
+        events = events.filter(end_datetime__lte=now)
+
+    return render(request, 'events.html', {
+        'events': events,
+        'groups': groups,
+        'filter': filter,
+        'active_filter': active_filter,
+        'timespan': time,
+    })
 
 
 def event(request, id):

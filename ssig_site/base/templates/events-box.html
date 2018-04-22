@@ -1,8 +1,8 @@
 <div class="event-box d-flex flex-column">
   <h2>{{ event.title }}</h2>
   <div class="event-details mb-3">
-    {% if event.group %}
-      <a href="{% url 'group-detail' event.group.id %}" class="badge badge-secondary">{{ event.group }}</a>
+    {% if event.group and request.resolver_match.view_name == 'events' %}
+      <a href="{% url 'events' event.group.id timespan %}" class="badge badge-secondary">{{ event.group }}</a>
     {% endif %}
     <span class="event-location">{{ event.location }}</span>
   </div>
