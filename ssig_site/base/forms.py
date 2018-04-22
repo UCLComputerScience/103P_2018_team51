@@ -18,6 +18,10 @@ class NumberInput(forms.NumberInput):
     template_name = 'forms/widgets/input.html'
 
 
+class Select(forms.Select):
+    template_name = 'forms/widgets/select.html'
+
+
 class EventForm(forms.ModelForm):
 
     class Meta:
@@ -30,6 +34,7 @@ class EventForm(forms.ModelForm):
         widgets = {
             'group': forms.HiddenInput(),
             'title': TextInput(),
+            'restricted_to': Select(),
             'short_description': Textarea(),
             'long_description': Textarea(),
             'start_datetime': SplitDateTimeWidget(),

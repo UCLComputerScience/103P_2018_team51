@@ -12,6 +12,14 @@ def group_user_role(group, user):
         return None
 
 
+def allow_registration(event, user):
+    return (
+        (event.restricted_to != event.PUBLIC and user.is_staff) or
+        (event.restricted_to == event.STUDENTS and user.is_authenticated) or
+        (event.restricted_to == event.MEMBERS and group_user_role(event.group, user))
+    )
+
+
 def index(request):
     groups = models.Group.objects.all()
     return render(request, 'groups.html', {'groups': groups})
@@ -67,13 +75,14 @@ def event(request, id):
     event = models.Event.objects.get(id=id)
     return render(request, 'event.html', {'event': event,
                                           'user_role': group_user_role(event.group, request.user),
-                                          'leader_role': models.GroupUser.LEADER})
+                                          'leader_role': models.GroupUser.LEADER,
+                                          'allow_registration': allow_registration(event, request.user)})
 
 
 def event_register(request, id):
     event = models.Event.objects.get(id=id)
-    current_user = request.user
-    current_user.events.add(event)
+    if allow_registration(event, request.user):
+        request.user.events.add(event)
     return redirect('event', id)
 
 

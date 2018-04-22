@@ -2,9 +2,6 @@ from django.db import models
 from ssig_site.auth.models import User
 
 
-# Create your models here.
-
-
 class Group(models.Model):
 
     name = models.CharField(max_length=50)
@@ -27,6 +24,18 @@ class Event(models.Model):
 
     group = models.ForeignKey(Group, on_delete=models.CASCADE, blank=True, null=True)
 
+    MEMBERS = 'm'
+    STUDENTS = 's'
+    PUBLIC = ''
+
+    ROLE_CHOICES = (
+        (MEMBERS, 'Group Members'),
+        (STUDENTS, 'UCL Students and Staff'),
+        (PUBLIC, 'Public')
+    )
+
+    restricted_to = models.CharField(max_length=2, choices=ROLE_CHOICES, default=STUDENTS, blank=True)
+
     def __str__(self):
         return self.title
 
@@ -39,6 +48,7 @@ class GroupUser(models.Model):
 
     LEADER = 'l'
     MEMBER = 'm'
+
     ROLE_CHOICES = (
         (LEADER, 'Leader'),
         (MEMBER, 'Member')

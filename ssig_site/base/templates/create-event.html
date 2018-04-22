@@ -36,6 +36,14 @@
     </div>
 
     <div class="form-group">
+      <label for="{{ form.restricted_to.id_for_label }}">Restrict to</label>
+      {{ form.restricted_to }}
+      <div class="invalid-feedback">
+        {{ form.restricted_to.errors }}
+      </div>
+    </div>
+
+    <div class="form-group">
       <label for="{{ form.short_description.id_for_label }}">Short Description</label>
       {{ form.short_description }}
       <small class="form-text text-muted">
