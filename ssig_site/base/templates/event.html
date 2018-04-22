@@ -7,7 +7,7 @@
 
 {% block header %}
   <h1 class="my-3 mr-3">{{ event.title }}</h1>
-  {% if event in user.events.all %}
+  {% if ticket %}
     <form class="form-inline" action="/e/{{event.id}}/unregister" method="post">
         {% csrf_token %}
         <input type="submit" class="btn btn-sm btn-outline-light" value="Unregister">
@@ -24,6 +24,8 @@
 
 {% block header-dropdown %}
 {% if user.is_staff or user_role == leader_role %}
+  <a class="dropdown-item" href="{% url 'event-attendance' event.id %}">Attendance Registration</a>
+  <div class="dropdown-divider"></div>
   <a class="dropdown-item" href="{% url 'event-edit' event.id %}">Edit Event</a>
   <a class="dropdown-item" href="{% url 'event-delete' event.id %}">Delete Event</a>
   <div class="dropdown-divider"></div>

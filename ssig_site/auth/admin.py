@@ -13,7 +13,6 @@ class UserAdmin(AuthUserAdmin):
     fieldsets = (
         (None, {'fields': ('upi', 'password')}),
         ('Personal info', {'fields': ('email', 'full_name', 'given_name', 'department')}),
-        ('Memberships', {'fields': ('events',)}),
         ('Permissions', {'fields': ('is_superuser', 'groups', 'user_permissions')}),
         ('Important dates', {'fields': ('last_login',)}),
     )

@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}Tickets{% endblock %}
+
+{% block header %}
+  <h1 class="my-3">Tickets</h1>
+{% endblock %}
+
+{% block content %}
+  <div class="row my-3">
+    <div class="col-md">
+      <h2>Upcoming events</h2>
+      {% if unused_tickets %}
+        <ul>
+          {% for ticket in unused_tickets %}
+            <li><a href="{% url 'ticket' ticket.id %}">{{ ticket.event.title }}</a></li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p>You're not registered for any upcoming events.</p>
+      {% endif %}
+    </div>
+    <div class="col-md">
+      <h2>Past events</h2>
+      {% if expired_tickets %}
+        <ul>
+          {% for ticket in expired_tickets %}
+            <li><a href="{% url 'ticket' ticket.id %}">{{ ticket.event.title }}</a></li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p>None of your tickets have expired.</p>
+      {% endif %}
+    </div>
+    <div class="col-md">
+      <h2>Events attended</h2>
+      {% if used_tickets %}
+        <ul>
+          {% for ticket in used_tickets %}
+            <li><a href="{% url 'ticket' ticket.id %}">{{ ticket.event.title }}</a></li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p>You haven't been to any events.</p>
+      {% endif %}
+    </div>
+  </div>
+{% endblock %}

@@ -43,3 +43,7 @@ class EventForm(forms.ModelForm):
             'latitude': NumberInput(),
             'longitude': NumberInput(),
         }
+
+
+class AttendanceForm(forms.Form):
+    upi = forms.CharField(widget=TextInput())

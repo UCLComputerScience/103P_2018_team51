@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %}Ticket - {{ ticket.event.title }}{% endblock %}
+
+{% block header %}
+  <h1 class="my-3">Ticket for {{ ticket.event.title }}</h1>
+{% endblock %}
+
+{% block content %}
+  <div class="row my-3">
+    <div class="col">
+      {{ ticket.qr | safe }}
+    </div>
+  </div>
+{% endblock %}

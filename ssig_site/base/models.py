@@ -1,6 +1,10 @@
 from django.db import models
 from ssig_site.auth.models import User
 
+import qrcode
+from qrcode.image.svg import SvgPathImage as qr_image_factory
+import xml.etree.ElementTree as ET
+
 
 class Group(models.Model):
 
@@ -38,6 +42,65 @@ class Event(models.Model):
 
     def __str__(self):
         return self.title
+
+    def get_ticket(self, user):
+        try:
+            return Ticket.objects.get(event=self, user=user)
+        except (Ticket.DoesNotExist, TypeError):
+            return None
+
+    def register(self, user):
+        ticket = Ticket(event=self, user=user)
+        ticket.save()
+        return ticket
+
+    def unregister(self, user):
+        try:
+            ticket = Ticket.objects.get(event=self, user=user)
+            ticket.delete()
+        except (Ticket.DoesNotExist, TypeError):
+            return None
+
+    def attendance(self, user):
+        success = False
+        ticket = self.get_ticket(user)
+        if ticket is None:
+            message = f'{user.full_name} has no ticket.'
+        elif ticket.attendance:
+            message = f'{user.full_name}\'s ticket has already been used.'
+        else:
+            ticket.attendance = True
+            ticket.save()
+            success = True
+            message = f'Successfully registered {user.full_name}\'s attendance.'
+        return {'success': success, 'message': message}
+
+
+class Ticket(models.Model):
+    event = models.ForeignKey(Event, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    created = models.DateTimeField(auto_now_add=True)
+    attendance = models.BooleanField(default=False)
+
+    class Meta:
+        unique_together = ('event', 'user')
+
+    def __str__(self):
+        return f"{self.user.upi}'s ticket for {self.event.title}"
+
+    @property
+    def qr(self):
+        qr = qrcode.QRCode(
+            error_correction=qrcode.constants.ERROR_CORRECT_H,
+            image_factory=qr_image_factory
+        )
+        qr.add_data(self.user.upi)
+
+        svg = qr.make_image()
+        svg.get_image().append(svg.make_path())
+        svg.get_image().set('width', '100%')
+        svg.get_image().set('height', 'auto')
+        return ET.tostring(svg.get_image(), encoding='unicode')
 
 
 class GroupUser(models.Model):

@@ -4,7 +4,9 @@ RUN apk add --no-cache \
   python3-dev \
   build-base \
   postgresql-dev \
-  nodejs
+  nodejs \
+  zlib-dev \
+  jpeg-dev
 RUN npm install gulp-cli -g
 ENV PYTHONUNBUFFERED 1
 RUN mkdir /code

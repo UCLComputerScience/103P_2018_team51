@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.utils import timezone
+from django.contrib.auth.decorators import login_required
 
 from . import models, forms
 
@@ -73,24 +74,24 @@ def events(request, filter='all', time='future'):
 
 def event(request, id):
     event = models.Event.objects.get(id=id)
+    ticket = event.get_ticket(request.user)
     return render(request, 'event.html', {'event': event,
                                           'user_role': group_user_role(event.group, request.user),
                                           'leader_role': models.GroupUser.LEADER,
-                                          'allow_registration': allow_registration(event, request.user)})
+                                          'allow_registration': allow_registration(event, request.user),
+                                          'ticket': ticket})
 
 
 def event_register(request, id):
     event = models.Event.objects.get(id=id)
     if allow_registration(event, request.user):
-        request.user.events.add(event)
+        event.register(request.user)
     return redirect('event', id)
 
 
 def event_unregister(request, id):
     event = models.Event.objects.get(id=id)
-    current_user = request.user
-
-    current_user.events.remove(event)
+    event.unregister(request.user)
     return redirect('event', id)
 
 
@@ -117,6 +118,43 @@ def event_delete(request, id):
         event = models.Event.objects.get(id=id)
         event.delete()
         return redirect('events')
+
+
+def event_attendance(request, id):
+    event = models.Event.objects.get(id=id)
+    total_tickets = models.Ticket.objects.filter(event=event).count()
+    total_attendance = models.Ticket.objects.filter(event=event, attendance=True).count()
+    if request.user.is_staff or group_user_role(event.group, request.user) == models.GroupUser.LEADER:
+
+        if request.method == 'GET':
+            form = forms.AttendanceForm()
+            return render(request, 'event-attendance.html', {
+                'event': event,
+                'total_tickets': total_tickets,
+                'total_attendance': total_attendance,
+                'form': form,
+            })
+
+        if request.method == 'POST':
+            form = forms.AttendanceForm(request.POST)
+            attendance = None
+            if form.is_valid():
+                try:
+                    upi = form.cleaned_data['upi']
+                    form = forms.AttendanceForm()
+                    user = models.User.objects.get(upi=upi)
+                    attendance = event.attendance(user)
+                    if attendance['success']:
+                        total_attendance += 1
+                except models.User.DoesNotExist:
+                    attendance = {'success': False, 'message': f'User {upi} does not exist.'}
+            return render(request, 'event-attendance.html', {
+                'event': event,
+                'total_tickets': total_tickets,
+                'total_attendance': total_attendance,
+                'form': form,
+                'attendance': attendance,
+            })
 
 
 def group_join(request, id):
@@ -152,3 +190,44 @@ def create_event(request, id):
                 return redirect('event', event.id)
             else:
                 return render(request, 'create-event.html', {'group': group, 'form': form})
+
+
+@login_required
+def tickets(request):
+    tickets = models.Ticket.objects.filter(user=request.user)
+    now = timezone.now()
+
+    unused_tickets = tickets.filter(
+        event__end_datetime__gt=now,
+        attendance=False
+    ).order_by(
+        'event__start_datetime',
+        'event__end_datetime'
+    )
+
+    expired_tickets = tickets.filter(
+        event__end_datetime__lte=now,
+        attendance=False
+    ).order_by(
+        '-event__start_datetime',
+        '-event__end_datetime'
+    )
+
+    used_tickets = tickets.filter(
+        attendance=True
+    ).order_by(
+        '-event__start_datetime',
+        '-event__end_datetime'
+    )
+
+    return render(request, 'tickets.html', {
+        'unused_tickets': unused_tickets,
+        'expired_tickets': expired_tickets,
+        'used_tickets': used_tickets,
+    })
+
+
+@login_required
+def ticket(request, id):
+    ticket = models.Ticket.objects.get(id=id, user=request.user)
+    return render(request, 'ticket.html', {'ticket': ticket})

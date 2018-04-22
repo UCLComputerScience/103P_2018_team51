@@ -24,7 +24,7 @@ gulp.task('js:build', () => {
             './node_modules/bootstrap/dist/js/bootstrap.bundle.min.js',
             './node_modules/d3/build/d3.min.js',
             './node_modules/metrics-graphics/dist/metricsgraphics.min.js',
-            './media/js/*'
+            './media/js/*.js'
           ])
     .pipe(gulp.dest('./static/js'))
 })

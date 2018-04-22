@@ -4,6 +4,7 @@ from . import models
 
 admin.site.register(models.Group)
 admin.site.register(models.Event)
+admin.site.register(models.Ticket)
 
 
 @admin.register(models.GroupUser)

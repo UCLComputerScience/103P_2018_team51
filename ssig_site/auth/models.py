@@ -38,8 +38,6 @@ class User(AbstractBaseUser, PermissionsMixin):
     full_name = models.CharField(max_length=254)
     given_name = models.CharField(max_length=254)
 
-    events = models.ManyToManyField('base.Event')
-
     objects = UserManager()
 
     USERNAME_FIELD = 'upi'
