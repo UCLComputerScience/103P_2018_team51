@@ -65,6 +65,7 @@
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
                   {% block header-dropdown %}{% endblock %}
                   {% if user.is_staff %}
+                    <a class="dropdown-item" href="{% url 'contact-leads' %}">Contact Student Leads</a>
                     <a class="dropdown-item" href="{% url 'admin:index' %}">Site Administration</a>
                     {% url 'metrics-dashboard' as metrics_url %}
                     <a class="dropdown-item {% if request.path == metrics_url %}active{% endif %}" href="{{ metrics_url }}">Metrics Dashboard</a>

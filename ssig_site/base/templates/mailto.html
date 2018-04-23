@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}Email Student Leads{% endblock %}
+
+{% block header %}
+  <h1 class="my-3 mr-3">Email Student Leads</h1>
+{% endblock %}
+
+{% block content %}
+<div class="row py-3">
+  <div class="col text-center">
+    <a class="btn btn-primary btn-lg" href="{{ mailto }}" role="button">Compose</a>
+  </div>
+</div>
+{% endblock %}

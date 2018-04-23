@@ -17,14 +17,16 @@ urlpatterns = [
     path('e/<int:id>/metrics', views.event_metrics, name='event-metrics'),
     path('e/<int:id>/data/<str:name>/<str:period>.json', views.event_data),
 
-
     path('g/<int:id>', views.group, name='group-detail'),
     path('g/<int:id>/join', views.group_join, name='group-join'),
     path('g/<int:id>/leave', views.group_leave, name='group-leave'),
     path('g/<int:id>/create-event', views.create_event, name='create-event'),
     path('g/<int:id>/metrics', views.group_metrics, name='group-metrics'),
     path('g/<int:id>/data/<str:name>/<str:period>.json', views.group_data),
+    path('g/<int:id>/contact-leads', views.contact_leads, name='group-contact-leads'),
 
     path('tickets', views.tickets, name='tickets'),
     path('ticket/<int:id>', views.ticket, name='ticket'),
+
+    path('contact-leads', views.contact_leads, name='contact-leads'),
 ]

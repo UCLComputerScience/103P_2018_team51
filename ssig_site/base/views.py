@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from . import models, forms
 from ssig_site.metrics.models import Metric
 from ssig_site.metrics.views import fetch_data
+from ssig_site.auth.decorators import staff_only
 
 
 def group_user_role(group, user):
@@ -285,3 +286,18 @@ def tickets(request):
 def ticket(request, id):
     ticket = models.Ticket.objects.get(id=id, user=request.user)
     return render(request, 'ticket.html', {'ticket': ticket})
+
+
+@staff_only
+def contact_leads(request, id=None):
+    filter = {'role': models.GroupUser.LEADER}
+    if id:
+        filter['group_id'] = id
+    emails = list(
+        models.GroupUser.objects
+        .filter(**filter)
+        .values_list('user__email', flat=True)
+        .distinct()
+    )
+    mailto = 'mailto:?bcc=' + ','.join(emails)
+    return render(request, 'mailto.html', {'mailto': mailto})

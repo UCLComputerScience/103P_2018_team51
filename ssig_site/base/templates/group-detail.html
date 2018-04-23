@@ -23,6 +23,7 @@
 {% if user.is_staff or user_role == leader_role %}
   <a class="dropdown-item" href="{% url 'create-event' group.id %}">Create Event</a>
   <a class="dropdown-item" href="{% url 'group-metrics' group.id %}">Group Metrics</a>
+  <a class="dropdown-item" href="{% url 'group-contact-leads' group.id %}">Contact Group Leads</a>
   <div class="dropdown-divider"></div>
 {% endif %}
 {% endblock %}
