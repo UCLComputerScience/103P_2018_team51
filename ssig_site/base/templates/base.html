@@ -28,7 +28,10 @@
             </g>
           </svg>
         </a>
-        <div class="collapse navbar-collapse" id="navbarResponsive">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ixnNavResponsive" aria-controls="ixnNavResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="ixnNavResponsive">
           <ul class="navbar-nav ml-auto">
             <li class="nav-item">
               <a class="nav-link" href="http://ixn.host/about/">About</a>
@@ -54,8 +57,13 @@
     </nav>
     <nav class="navbar navbar-expand-md navbar-dark" id="ssigNav">
       <div class="container">
-        <div class="collapse navbar-collapse">
-          {% block header %}{% endblock %}
+        {% block header %}{% endblock %}
+        {% block header-title %}{% endblock %}
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ssigNavResponsive" aria-controls="ssigNavResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="ssigNavResponsive">
+          {% block header-buttons %}{% endblock %}
           <ul class="navbar-nav ml-auto">
             {% if user.is_authenticated %}
               <li class="nav-item dropdown">

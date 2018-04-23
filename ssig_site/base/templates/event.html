@@ -5,8 +5,11 @@
 
 {% block body_classes %}event-page{% endblock %}
 
-{% block header %}
+{% block header-title %}
   <h1 class="my-3 mr-3">{{ event.title }}</h1>
+{% endblock %}
+
+{% block header-buttons %}
   {% if ticket %}
     <form class="form-inline" action="/e/{{event.id}}/unregister" method="post">
         {% csrf_token %}

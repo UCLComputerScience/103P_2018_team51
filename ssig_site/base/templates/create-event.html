@@ -8,7 +8,7 @@
 {% endif %}
 {% endblock %}
 
-{% block header %}
+{% block header-title %}
   {% if request.resolver_match.view_name == 'event-edit' %}
     <h1 class="my-3 mr-3">Edit {{group.name}} Event</h1>
   {% else %}
