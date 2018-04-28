@@ -121,13 +121,7 @@ One solution is localtunnel, which can be used by following the instructions her
 OAuth Credentials
 ^^^^^^^^^^^^^^^^^
 
-Create a new app at: https://uclapi.com/dashboard/.
-
-Then fill in the OAuth Callback URL to be the remote url of your development server, followed by ``/auth/callback``. If using localtunnel, this will be something like:
-
-.. code-block:: none
-
-  https://abcdefghij.localtunnel.me/auth/callback
+Generate your credentials by following the instructions here: :ref:`ucl-api-oauth-setup`.
 
 Then update your ``.env`` file to include the *Client ID* and *Client Secret* from the UCL API dashboard, for example:
 
@@ -141,20 +135,7 @@ Test you've setup your credentials correctly by attempting to log in by visiting
 Google Maps API Key
 -------------------
 
-A Google Maps API key is necessary for displaying the maps on event pages.
-
-To get your key:
-
-#. Visit https://console.developers.google.com/cloud-resource-manager and sign in
-#. Click "Create a Project"
-#. Give your project a name, perhaps "SSIG site dev"
-#. Click "Create"
-#. Click on your newly created project
-#. Visit https://console.developers.google.com/apis/api/maps-backend.googleapis.com/overview
-#. Click "Enable", wait for the API to be enabled for your project
-#. Visit https://console.developers.google.com/apis/credentials/wizard?api=maps-backend.googleapis.com
-#. Click "What credentials do I need?"
-#. Your API key will be displayed
+Generate your credentials by following the instructions here: :ref:`gmaps-api-setup`.
 
 Then update your ``.env`` file to include the API key:
 
