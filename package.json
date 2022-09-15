@@ -15,7 +15,7 @@
   },
   "homepage": "https://github.com/UCLComputerScience/103P_2018_team51#readme",
   "dependencies": {
-    "bootstrap": "^4.0.0",
+    "bootstrap": "^4.3.1",
     "gulp": "^3.9.1",
     "gulp-sass": "^3.1.0",
     "jquery": "^3.3.1",
